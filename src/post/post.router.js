@@ -7,7 +7,7 @@ const Authmiddleware = require("../middleware/Authentication");
 const WriterAutMiddleware = require("../middleware/Authorization");
 const app = express.Router();
 
-// ############## Home page post ##################
+// ############## Home page post ###################
 
 app.get("/all", async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
@@ -28,7 +28,7 @@ app.get("/all", async (req, res) => {
 app.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    let post = await Post.find({ userId: id });
+    let post = await Post.find({ userId: id }).populate("userId", "-password");
     return res.status(200).send(post);
   } catch (er) {
     return res.status(404).send({ msg: er });
