@@ -76,16 +76,14 @@ app.post("/login", async (req, res) => {
     { expiresIn: "7 days" }
   );
 
-  return res
-    .status(200)
-    .send({
-      msg: "Login successfull",
-      token: token,
-      rtoken: refreshToken,
-      name: user.name,
-      id: user._id,
-      role: user.role,
-    });
+  return res.status(200).send({
+    msg: "Login successfull",
+    token: token,
+    rtoken: refreshToken,
+    name: user.name,
+    id: user._id,
+    role: user.role,
+  });
 });
 
 module.exports = app;
