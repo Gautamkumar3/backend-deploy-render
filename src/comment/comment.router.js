@@ -49,10 +49,7 @@ app.delete("/:id", Authmiddleware, async (req, res) => {
   const data = jwt.decode(token, secretKey);
 
   let comment = await Comment.findById(id);
-  let unique;
-  if (comment) {
-    unique = comment.userId.toString();
-  }
+  let unique = comment?.userId?.toString();
 
   try {
     if (data.id === unique) {
