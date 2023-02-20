@@ -22,7 +22,7 @@ const WriterAutMiddleware = (req, res, next) => {
       return res.status(403).send("you are not allowed to create Post");
     }
   } else {
-    return res.status(403).send("you are not allowed to create Post");
+    return res.status(400).send("you are not allowed to create Post");
   }
 };
 

@@ -59,6 +59,7 @@ app.post("/refresh", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  console.log("res");
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email, password });
   if (!user) {
@@ -87,3 +88,5 @@ app.post("/login", async (req, res) => {
 });
 
 module.exports = app;
+
+

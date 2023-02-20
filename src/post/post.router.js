@@ -45,8 +45,7 @@ app.get("/api/search", async (req, res) => {
   console.log(keyword);
   try {
     const AllPost = await Post.find({
-      title: { $regex: keyword },
-      $option: "i",
+      title: { $regex: keyword, $options: "i" },
     });
     console.log(AllPost);
     return res.status(200).send(AllPost);
@@ -77,8 +76,6 @@ app.post("/", Authmiddleware, WriterAutMiddleware, async (req, res) => {
   try {
     const post = new Post({ ...req.body, userId: data.id });
     await post.save();
-
-    console.log(post);
     res.status(200).send(post);
   } catch (er) {
     res.status(400).send({ msg: er });
@@ -126,7 +123,6 @@ app.patch("/:id", Authmiddleware, WriterAutMiddleware, async (req, res) => {
         { content: req.body.content },
         { new: true }
       );
-      console.log(afterUpdate);
       res.status(200).send(afterUpdate);
     } else {
       res

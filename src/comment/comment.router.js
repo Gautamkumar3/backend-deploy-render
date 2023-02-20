@@ -34,8 +34,10 @@ app.post("/", Authmiddleware, async (req, res) => {
 app.get("/", async (req, res) => {
   const { postid } = req.headers;
   try {
-    const comment = await Comment.find({ postId: postid });
-    res.send(comment);
+    const comment = await Comment.find({ postId: postid }).sort({
+      created_at: -1,
+    });
+    res.status(200).send(comment);
   } catch (er) {
     res.status(400).send({ msg: er.message });
   }
@@ -49,7 +51,7 @@ app.delete("/:id", Authmiddleware, async (req, res) => {
   const data = jwt.decode(token, secretKey);
 
   let comment = await Comment.findById(id);
-  let unique = comment?.userId?.toString();
+  let unique = comment.userId.toString();
 
   try {
     if (data.id === unique) {
@@ -84,7 +86,6 @@ app.patch("/:id", Authmiddleware, async (req, res) => {
         { comments: req.body.comment },
         { new: true }
       );
-      console.log(afterUpdate);
       res.status(200).send(afterUpdate);
     } else {
       res

@@ -9,8 +9,6 @@ const postRouter = require("./post/post.router");
 const commentRouter = require("./comment/comment.router");
 
 const app = express();
-app.use(cors());
-
 const server = http.Server(app);
 
 const io = require("socket.io")(server, {
@@ -19,12 +17,19 @@ const io = require("socket.io")(server, {
   },
 });
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
+
+app.all("*", (req, res) => {
+  return res
+    .status(404)
+    .json({ success: false, message: `${req.originalUrl} route not found` });
+});
 
 io.on("connection", (socket) => {
   console.log(`New connection: ${socket.id}`);
