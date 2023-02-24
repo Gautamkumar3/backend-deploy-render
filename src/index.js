@@ -25,6 +25,11 @@ app.use("/users", userRouter);
 app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
 
+
+app.get("/", (req, res) => {
+  res.send("Welcome to GK blog");
+});
+
 app.all("*", (req, res) => {
   return res
     .status(404)
@@ -47,9 +52,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Welcome to GK blog");
-});
+
 
 server.listen(PORT, async () => {
   await Connect();
